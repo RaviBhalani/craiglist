@@ -11,9 +11,6 @@ class Craigslist(object):
         with open("/home/meditab/craiglist/data/craiglist_data.json", "r") as read_file:
             self.json_data = json.load(read_file)
 
-    def index(self):
-        return "Hello! How are you?"
-
     def get_sorted_data(self, reverse=False, criteria='price'):
         sorted_user_data = []
 

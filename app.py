@@ -9,7 +9,7 @@ class App(object):
 
     @cherrypy.expose
     def index(self):
-        return self.source_code_object.index()
+        return "Hello, how are you?"
 
     @cherrypy.expose
     def get_sorted_data(self, reverse=False, criteria='price'):
