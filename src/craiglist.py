@@ -10,27 +10,25 @@ class Craigslist(object):
         self.json_data = []
         with open("/home/meditab/craiglist/data/craiglist_data.json", "r") as read_file:
             self.json_data = json.load(read_file)
+        self.json_data = sorted(self.json_data, key=lambda user: user['price'])
+
+    @staticmethod
+    def get_user_details(user):
+        return str("User Details : <br>ID : " + user['id'] + "<br>Location : <br>Lat:" + str(user['loc'][0]) +
+                   "<br>Long:" + str(user['loc'][1]) + "<br>User ID : " + user['userId'] + "<br>Description : " +
+                   str(user['description']) + "<br>Price : " + str(user['price']) + "<br>Status : " + user['status'] +
+                   "<br><br><br>")
 
     def get_sorted_data(self, reverse=False, criteria='price'):
         sorted_user_data = []
 
         if ast.literal_eval(reverse):
-            for user in sorted(self.json_data, key=lambda e: e['price'], reverse=True):
-                user_details = str("User Details : <br>ID : " + user['id'] + "<br>Location : <br>Lat:" +
-                                   str(user['loc'][0]) + "<br>Long:" + str(user['loc'][1]) + "<br>User ID : " +
-                                   user['userId'] + "<br>Description : " + str(user['description']) +
-                                   "<br>Price : " + str(user['price']) + "<br>Status : " + user['status'])
-                sorted_user_data.append(user_details)
-                sorted_user_data.append("<br><br>")
+            for user in reversed(self.json_data):
+                sorted_user_data.append(self.get_user_details(user))
             return sorted_user_data
         else:
-            for user in sorted(self.json_data, key=lambda e: e['price']):
-                user_details = str("User Details : <br>ID : " + user['id'] + "<br>Location : <br>Lat:" +
-                                   str(user['loc'][0]) + "<br>Long:" + str(user['loc'][1]) + "<br>User ID : " +
-                                   user['userId'] + "<br>Description : " + str(user['description']) +
-                                   "<br>Price : " + str(user['price']) + "<br>Status : " + user['status'])
-                sorted_user_data.append(user_details)
-                sorted_user_data.append("<br><br>")
+            for user in self.json_data:
+                sorted_user_data.append(self.get_user_details(user))
             return sorted_user_data
 
     def get_item(self, product_id=None, location=None):
@@ -38,10 +36,7 @@ class Craigslist(object):
         if product_id:
             for user in self.json_data:
                 if str(user["id"]) == product_id:
-                    return "User Details : <br>ID : " + user['id'] + "<br>Location :<br>Lat:" +\
-                           str(user['loc'][0]) + "<br>Long:" + str(user['loc'][1]) + "<br>User ID : " +\
-                           user['userId'] + "<br>Description : " + str(user['description']) + "<br>Price : " +\
-                           str(user['price']) + "<br>Status : " + user['status']
+                    return self.get_user_details(user)
             else:
                 return "Invalid ID"
 
@@ -49,10 +44,7 @@ class Craigslist(object):
             location = list(location.split(","))
             for user in self.json_data:
                 if repr(user['loc'][0]) == location[0] and repr(user['loc'][1]) == location[1]:
-                    return "User Details : <br>ID : " + user['id'] + "<br>Location : <br>Lat:" +\
-                           str(user['loc'][0]) + "<br>Long:" + str(user['loc'][1]) + "<br>User ID : "\
-                           + user['userId'] + "<br>Description : " + str(user['description']) + "<br>Price : " +\
-                           str(user['price']) + "<br>Status : " + user['status']
+                    return self.get_user_details(user)
             else:
                 return "Invalid Location"
 
@@ -63,26 +55,13 @@ class Craigslist(object):
             if status == "removed":
                 for user in self.json_data:
                     if str(user['status']) == "removed":
-                        user_details = str("User Details : <br>ID : " + user['id'] + "<br>Location : <br>Lat:" +
-                                           str(user['loc'][0]) + "<br>Long:" + str(user['loc'][1]) +
-                                           "<br>User ID : " + user['userId'] +
-                                           "<br>Description : " + str(user['description']) +
-                                           "<br>Price : " + str(user['price']) + "<br>Status : " +
-                                           user['status'])
-                        items_list_by_status_user_id.append(user_details)
-                        items_list_by_status_user_id.append("<br><br>")
+                        items_list_by_status_user_id.append(self.get_user_details(user))
                 return items_list_by_status_user_id
 
             elif status == "tos":
                 for user in self.json_data:
                     if str(user['status']) == "tos":
-                        user_details = str("User Details : <br>ID : " + user['id'] + "<br>Location : <br>Lat:" +
-                                           str(user['loc'][0]) + "<br>Long:" + str(user['loc'][1]) +
-                                           "<br>User ID : " + user['userId'] + "<br>Description : " +
-                                           str(user['description']) + "<br>Price : " + str(user['price']) +
-                                           "<br>Status : " + user['status'])
-                        items_list_by_status_user_id.append(user_details)
-                        items_list_by_status_user_id.append("<br><br>")
+                        items_list_by_status_user_id.append(self.get_user_details(user))
                 return items_list_by_status_user_id
 
             else:
@@ -91,13 +70,7 @@ class Craigslist(object):
         elif user_id:
             for user in self.json_data:
                 if str(user['userId']) == user_id:
-                    user_details = str("User Details : <br>ID : " + user['id'] + "<br>Location : <br>Lat:" +
-                                       str(user['loc'][0]) + "<br>Long:" + str(user['loc'][1]) +
-                                       "<br>User ID : " + user['userId'] + "<br>Description : " +
-                                       str(user['description']) + "<br>Price : " + str(user['price']) +
-                                       "<br>Status : " + user['status'])
-                    items_list_by_status_user_id.append(user_details)
-                    items_list_by_status_user_id.append("<br><br>")
+                    items_list_by_status_user_id.append(self.get_user_details(user))
             if len(items_list_by_status_user_id):
                 return items_list_by_status_user_id
             else:
@@ -112,12 +85,7 @@ class Craigslist(object):
         for user in self.json_data:
             user_location = (Decimal(user['loc'][0]), Decimal(user['loc'][1]))
             if distance.distance(location, user_location).km <= Decimal(radius):
-                user_details = str("User Details : <br>ID : " + user['id'] + "<br>Location : <br>Lat:" +
-                                   str(user['loc'][0]) + "<br>Long:" + str(user['loc'][1]) + "<br>User ID : " +
-                                   user['userId'] + "<br>Description : " + str(user['description']) +
-                                   "<br>Price : " + str(user['price']) + "<br>Status : " + user['status'])
-                users_within_radius.append(user_details)
-                users_within_radius.append("<br><br>")
+                users_within_radius.append(self.get_user_details(user))
 
         if len(users_within_radius):
             users_within_radius.pop(0)
