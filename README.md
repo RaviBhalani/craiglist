@@ -1,0 +1,1 @@
+This project reads a JSON file which contains Craiglist data of users and performs basic operation such as searching, sorting, etc. 
