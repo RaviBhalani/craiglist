@@ -5,7 +5,7 @@ chardet==3.0.4
 cheroot==6.5.5
 CherryPy==17.4.2
 contextlib2==0.5.5
-cryptography==2.1.4
+cryptography==3.2
 docopt==0.6.2
 enum34==1.1.6
 geographiclib==1.49
