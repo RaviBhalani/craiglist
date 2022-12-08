@@ -1,6 +1,6 @@
 asn1crypto==0.24.0
 backports.functools-lru-cache==1.5
-certifi==2019.6.16
+certifi==2022.12.7
 chardet==3.0.4
 cheroot==6.5.5
 CherryPy==17.4.2
